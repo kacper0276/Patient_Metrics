@@ -1,0 +1,94 @@
+.page-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+}
+.eyebrow {
+  margin: 0 0 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: #2563eb;
+  font-size: 0.82rem;
+}
+h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+.page-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.grid-list {
+  display: grid;
+  gap: 1.25rem;
+}
+.card {
+  padding: 1.5rem;
+  border-radius: 24px;
+  background: white;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+}
+.card-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.meta {
+  margin: 0.25rem 0 0;
+  color: #64748b;
+}
+.card-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.tags {
+  display: grid;
+  gap: 0.75rem;
+}
+.tag {
+  display: inline-flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  background: #f8fafc;
+  border-radius: 14px;
+  padding: 0.85rem 1rem;
+  color: #334155;
+}
+.empty-state {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  border-radius: 24px;
+  background: white;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+}
+.empty-state h2 {
+  margin-top: 0;
+  font-size: 1.75rem;
+}
+.button {
+  border: none;
+  border-radius: 14px;
+  padding: 0.9rem 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.button--primary {
+  background: #2563eb;
+  color: white;
+}
+.button--secondary {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+.button--ghost {
+  background: transparent;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+}

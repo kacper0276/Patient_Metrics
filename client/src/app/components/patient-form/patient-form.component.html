@@ -1,0 +1,96 @@
+<section class="page-header small">
+  <div>
+    <p class="eyebrow">Pacjent</p>
+    <h1>{{ isNew() ? "Nowy pacjent" : "Edycja pacjenta" }}</h1>
+  </div>
+  <div class="page-actions">
+    <button
+      class="button button--ghost"
+      (click)="router.navigate(['/patients'])"
+    >
+      Powrót
+    </button>
+    <button class="button button--primary" (click)="save()">Zapisz</button>
+    <button
+      *ngIf="!isNew()"
+      class="button button--secondary"
+      (click)="downloadPdf()"
+    >
+      Generuj PDF
+    </button>
+  </div>
+</section>
+
+<section class="page-card">
+  <form class="form" (ngSubmit)="save()">
+    <label>
+      Imię
+      <input
+        type="text"
+        [(ngModel)]="patient.firstName"
+        name="firstName"
+        required
+      />
+    </label>
+
+    <label>
+      Nazwisko
+      <input
+        type="text"
+        [(ngModel)]="patient.lastName"
+        name="lastName"
+        required
+      />
+    </label>
+
+    <label>
+      PESEL
+      <input type="text" [(ngModel)]="patient.pesel" name="pesel" />
+    </label>
+
+    <div class="section-title">Niestandardowe dane pacjenta</div>
+    <div *ngIf="fields().length; else noFields" class="fields-grid">
+      <div *ngFor="let field of fields()" class="field-row">
+        <label>
+          {{ field.name }}
+          <ng-container [ngSwitch]="field.type">
+            <input
+              *ngSwitchCase="'number'"
+              type="number"
+              [(ngModel)]="patient.customData[field.key]"
+              name="custom_{{ field.key }}"
+            />
+            <input
+              *ngSwitchCase="'date'"
+              type="date"
+              [(ngModel)]="patient.customData[field.key]"
+              name="custom_{{ field.key }}"
+            />
+            <label *ngSwitchCase="'boolean'" class="checkbox-label">
+              <input
+                type="checkbox"
+                [(ngModel)]="patient.customData[field.key]"
+                name="custom_{{ field.key }}"
+              />
+              Tak
+            </label>
+            <input
+              *ngSwitchDefault
+              type="text"
+              [(ngModel)]="patient.customData[field.key]"
+              name="custom_{{ field.key }}"
+            />
+          </ng-container>
+        </label>
+      </div>
+    </div>
+    <ng-template #noFields>
+      <p class="hint">
+        Brak zdefiniowanych pól niestandardowych. Dodaj je w zakładce "Pola
+        niestandardowe".
+      </p>
+    </ng-template>
+
+    <div *ngIf="message" class="message">{{ message }}</div>
+  </form>
+</section>

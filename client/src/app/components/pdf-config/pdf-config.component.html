@@ -1,0 +1,52 @@
+<section class="page-header small">
+  <div>
+    <p class="eyebrow">Konfiguracja podsumowania</p>
+    <h1>Wybierz pola do raportu</h1>
+  </div>
+  <div class="page-actions">
+    <button
+      class="button button--ghost"
+      (click)="router.navigate(['/patients'])"
+    >
+      Powrót
+    </button>
+  </div>
+</section>
+
+<section class="page-card form-card">
+  <label>
+    Tytuł raportu
+    <input type="text" [(ngModel)]="config.reportTitle" name="reportTitle" />
+  </label>
+
+  <div class="checkbox-group">
+    <p class="group-label">Standardowe pola</p>
+    <label
+      *ngFor="let field of data.availableStandardFields()"
+      class="checkbox-label"
+    >
+      <input
+        type="checkbox"
+        [checked]="config.selectedStandardFields.includes(field.key)"
+        (change)="toggleStandard(field.key)"
+      />
+      {{ field.label }}
+    </label>
+  </div>
+
+  <div class="checkbox-group">
+    <p class="group-label">Pola niestandardowe</p>
+    <label *ngFor="let field of data.customFields()" class="checkbox-label">
+      <input
+        type="checkbox"
+        [checked]="config.selectedCustomFieldKeys.includes(field.key)"
+        (change)="toggleCustom(field.key)"
+      />
+      {{ field.name }}
+    </label>
+  </div>
+
+  <button class="button button--primary" (click)="save()">
+    Zapisz konfigurację
+  </button>
+</section>

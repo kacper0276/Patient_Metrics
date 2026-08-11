@@ -1,0 +1,87 @@
+.page-header.small {
+  margin-bottom: 1.5rem;
+}
+.page-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+.button {
+  border: none;
+  border-radius: 14px;
+  padding: 0.9rem 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.button--primary {
+  background: #2563eb;
+  color: white;
+}
+.button--secondary {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+.button--ghost {
+  background: transparent;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+}
+.page-card {
+  background: white;
+  border-radius: 24px;
+  padding: 1.75rem;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+}
+.form {
+  display: grid;
+  gap: 1rem;
+}
+label {
+  display: grid;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="date"] {
+  width: 100%;
+  padding: 0.95rem 1rem;
+  border-radius: 14px;
+  border: 1px solid #cbd5e1;
+  font-size: 1rem;
+}
+.fields-grid {
+  display: grid;
+  gap: 1rem;
+}
+.field-row {
+  background: #f8fafc;
+  padding: 1rem;
+  border-radius: 18px;
+}
+.section-title {
+  font-size: 1rem;
+  margin-top: 1.5rem;
+  color: #334155;
+  font-weight: 700;
+}
+.checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  user-select: none;
+}
+.hint {
+  color: #64748b;
+  margin: 0.5rem 0 0;
+}
+.message {
+  background: #e0f2fe;
+  color: #0369a1;
+  border-radius: 14px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
