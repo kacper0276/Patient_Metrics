@@ -15,6 +15,10 @@ import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { AuthenticatedGuard } from '@core/guards/authenticated.guard';
 import { RolesGuard } from '@core/guards/roles.guard';
 import { JwtAuthGuard } from '@core/guards/jwt-auth.guard';
+import { UsersModule } from './modules/users/users.module';
+import { PatientsModule } from './modules/patients/patients.module';
+import { CustomFieldsModule } from './modules/custom-fields/custom-fields.module';
+import { UserPdfConfigModule } from './modules/user-pdf-config/user-pdf-config.module';
 
 @Module({
   imports: [
@@ -55,6 +59,11 @@ import { JwtAuthGuard } from '@core/guards/jwt-auth.guard';
       useFactory: (configService: ConfigService) =>
         configService.getDatabaseConfig(),
     }),
+
+    UsersModule,
+    PatientsModule,
+    CustomFieldsModule,
+    UserPdfConfigModule,
   ],
   controllers: [AppController],
   providers: [
