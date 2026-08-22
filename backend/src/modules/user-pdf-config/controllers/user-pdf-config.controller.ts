@@ -9,11 +9,13 @@ import {
   Post,
 } from '@nestjs/common';
 import { CurrentUser } from '@core/decorators/current-user.decorator';
+import { Authenticated } from '@core/decorators/authenticated.decorator';
 import { CreateUserPdfConfigDto } from '../dto/create-user-pdf-config.dto';
 import { UpdateUserPdfConfigDto } from '../dto/update-user-pdf-config.dto';
 import { UserPdfConfigService } from '../services/user-pdf-config.service';
 
 @Controller('user-pdf-config')
+@Authenticated()
 export class UserPdfConfigController {
   constructor(private readonly service: UserPdfConfigService) {}
 

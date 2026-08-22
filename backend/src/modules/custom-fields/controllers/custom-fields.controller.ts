@@ -9,11 +9,13 @@ import {
   Post,
 } from '@nestjs/common';
 import { CurrentUser } from '@core/decorators/current-user.decorator';
+import { Authenticated } from '@core/decorators/authenticated.decorator';
 import { CreateCustomFieldDto } from '../dto/create-custom-field.dto';
 import { UpdateCustomFieldDto } from '../dto/update-custom-field.dto';
 import { CustomFieldsService } from '../services/custom-fields.service';
 
 @Controller('custom-fields')
+@Authenticated()
 export class CustomFieldsController {
   constructor(private readonly service: CustomFieldsService) {}
 

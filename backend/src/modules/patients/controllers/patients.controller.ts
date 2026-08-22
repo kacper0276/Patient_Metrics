@@ -12,11 +12,13 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CurrentUser } from '@core/decorators/current-user.decorator';
+import { Authenticated } from '@core/decorators/authenticated.decorator';
 import { CreatePatientDto } from '../dto/create-patient.dto';
 import { UpdatePatientDto } from '../dto/update-patient.dto';
 import { ExcelUpload, PatientsService } from '../services/patients.service';
 
 @Controller('patients')
+@Authenticated()
 export class PatientsController {
   constructor(private readonly patientsService: PatientsService) {}
 
