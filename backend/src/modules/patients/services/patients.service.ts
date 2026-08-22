@@ -62,23 +62,48 @@ export class PatientsService {
       /^\d+06$/.test(name.trim()),
     );
     let imported = 0;
+    let skipped = 0;
     const allColumns = new Map<string, string>();
-    const sheetRows = selectedSheets.map((sheetName) => {
-      const rows = XLSX.utils.sheet_to_json<Record<string, unknown>>(
+    const sheetData = selectedSheets.map((sheetName) => {
+      const rows = XLSX.utils.sheet_to_json<unknown[]>(
         workbook.Sheets[sheetName],
-        { defval: null },
+        { header: 1, defval: null, raw: true },
       );
+      const customData: Record<string, string | number | boolean | null> = {};
+      const usedKeys = new Set<string>();
+
       for (const row of rows) {
-        for (const column of Object.keys(row)) {
-          const key = this.normalizeColumn(column);
-          if (key) allColumns.set(key, column);
+        const values = row.map((value) => this.normalizeValue(value));
+        for (let valueIndex = 0; valueIndex < values.length - 1; valueIndex++) {
+          const label = values[valueIndex];
+          const result = values[valueIndex + 1];
+          if (typeof label !== 'string' || result === null) continue;
+          if (this.isResultsHeader(label, result)) continue;
+          if (this.isIgnoredField(label)) continue;
+
+          const baseKey = this.normalizeColumn(label);
+          if (!baseKey) continue;
+          const key = this.uniqueKey(baseKey, usedKeys);
+          usedKeys.add(key);
+          allColumns.set(key, label);
+          customData[key] = result;
         }
       }
-      return { sheetName, rows };
+
+      return { sheetName, customData };
     });
 
     const existingFields = await this.customFieldsService.findAll(userId);
-    const existingKeys = new Set(existingFields.map((field) => field.key));
+    for (const field of existingFields) {
+      if (this.isIgnoredField(field.name)) {
+        await this.customFieldsService.delete(field.id, userId);
+      }
+    }
+    const existingKeys = new Set(
+      existingFields
+        .filter((field) => !this.isIgnoredField(field.name))
+        .map((field) => field.key),
+    );
     for (const [key, name] of allColumns) {
       if (existingKeys.has(key)) continue;
       await this.customFieldsService.create(
@@ -88,28 +113,58 @@ export class PatientsService {
       existingKeys.add(key);
     }
 
-    for (const { sheetName, rows } of sheetRows) {
-      for (const row of rows) {
-        const columns = Object.keys(row);
-        const customData: Record<string, string | number | boolean | null> = {};
-        for (const column of columns) {
-          const key = this.normalizeColumn(column);
-          if (key) customData[key] = this.normalizeValue(row[column]);
-        }
-
-        await this.create(
-          {
-            firstName: sheetName,
-            lastName: sheetName,
-            customData,
-          },
-          userId,
-        );
-        imported++;
+    for (const { sheetName, customData } of sheetData) {
+      if (!Object.keys(customData).length) {
+        skipped++;
+        continue;
       }
+
+      await this.create(
+        {
+          firstName: sheetName,
+          lastName: sheetName,
+          customData,
+        },
+        userId,
+      );
+      imported++;
     }
 
-    return { imported, skipped: 0, sheets: selectedSheets };
+    return { imported, skipped, sheets: selectedSheets };
+  }
+
+  private isResultsHeader(
+    label: string | number | boolean | null,
+    result: string | number | boolean | null,
+  ): boolean {
+    return (
+      typeof label === 'string' &&
+      typeof result === 'string' &&
+      ['pytanie', 'wartosc', 'value'].includes(this.normalizeColumn(label)) &&
+      ['wynik', 'result', 'odpowiedz'].includes(this.normalizeColumn(result))
+    );
+  }
+
+  private uniqueKey(baseKey: string, usedKeys: Set<string>): string {
+    if (!usedKeys.has(baseKey)) return baseKey;
+
+    let suffix = 2;
+    while (usedKeys.has(`${baseKey}${suffix}`)) suffix++;
+    return `${baseKey}${suffix}`;
+  }
+
+  private isIgnoredField(label: string): boolean {
+    const normalized = this.normalizeColumn(label);
+    return (
+      /^empty\d*$/.test(normalized) ||
+      normalized.startsWith('skala') ||
+      normalized === 'pytanie' ||
+      normalized === 'czestosc' ||
+      normalized === 'wynikibadan' ||
+      normalized === 'produktyzywnosciowe' ||
+      normalized === 'ankietawlasna' ||
+      normalized === 'socjologicznedanepacjenta'
+    );
   }
 
   private normalizeColumn(value: string): string {
