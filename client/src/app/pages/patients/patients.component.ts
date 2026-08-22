@@ -80,6 +80,30 @@ export class PatientsComponent {
   formatValue(value: any) {
     if (value === true) return 'Tak';
     if (value === false) return 'Nie';
+    if (typeof value === 'number') {
+      return value.toLocaleString('pl-PL', { maximumFractionDigits: 2 });
+    }
     return value ?? '-';
+  }
+
+  displayedFields(patient: Patient) {
+    return this.customFields().filter(
+      (field) =>
+        !this.isIgnoredField(field.name) &&
+        Object.prototype.hasOwnProperty.call(patient.customData, field.key),
+    );
+  }
+
+  private isIgnoredField(name: string) {
+    const normalized = name
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, '');
+    return (
+      /^empty\d*$/.test(normalized) ||
+      normalized === 'wynikibadan' ||
+      normalized === 'produktyzywnosciowe'
+    );
   }
 }

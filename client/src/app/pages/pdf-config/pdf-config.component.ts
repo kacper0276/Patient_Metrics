@@ -37,7 +37,11 @@ export class PdfConfigComponent {
   constructor() {
     this.fieldsService
       .findAll()
-      .subscribe(({ data }) => this.customFields.set(data));
+      .subscribe(({ data }) =>
+        this.customFields.set(
+          data.filter((field) => !this.isIgnoredField(field.name)),
+        ),
+      );
     this.configService.findAll().subscribe(({ data }) => {
       const config = data[0];
       if (config) {
@@ -65,6 +69,35 @@ export class PdfConfigComponent {
       ? current.filter((item) => item !== key)
       : [...current, key];
     this.updateConfig({ selectedCustomFieldKeys: next });
+  }
+
+  toggleAllCustom() {
+    const keys = this.customFields().map((field) => field.key);
+    const selected = this.config().selectedCustomFieldKeys;
+    const allSelected =
+      keys.length > 0 && keys.every((key) => selected.includes(key));
+    this.updateConfig({ selectedCustomFieldKeys: allSelected ? [] : keys });
+  }
+
+  allCustomSelected() {
+    const keys = this.customFields().map((field) => field.key);
+    return (
+      keys.length > 0 &&
+      keys.every((key) => this.config().selectedCustomFieldKeys.includes(key))
+    );
+  }
+
+  private isIgnoredField(name: string) {
+    const normalized = name
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, '');
+    return (
+      /^empty\d*$/.test(normalized) ||
+      normalized === 'wynikibadan' ||
+      normalized === 'produktyzywnosciowe'
+    );
   }
 
   save() {

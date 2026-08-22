@@ -54,11 +54,17 @@
       </div>
     </div>
 
-    <div class="tags">
-      <span *ngFor="let field of customFields()" class="tag">
-        <strong>{{ field.name }}:</strong>
-        {{ formatValue(patient.customData[field.key]) }}
-      </span>
+    <div class="results" *ngIf="displayedFields(patient).length">
+      <div class="result-row result-row--header" aria-hidden="true">
+        <span>Wartość</span>
+        <span>Wynik</span>
+      </div>
+      <div *ngFor="let field of displayedFields(patient)" class="result-row">
+        <span class="result-label">{{ field.name }}</span>
+        <span class="result-value">{{
+          formatValue(patient.customData[field.key])
+        }}</span>
+      </div>
     </div>
   </article>
 </section>

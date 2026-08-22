@@ -37,7 +37,16 @@
   </div>
 
   <div class="checkbox-group">
-    <p class="group-label">Pola niestandardowe</p>
+    <div class="group-heading">
+      <p class="group-label">Pola niestandardowe</p>
+      <button
+        class="button button--ghost"
+        type="button"
+        (click)="toggleAllCustom()"
+      >
+        {{ allCustomSelected() ? "Odznacz wszystkie" : "Zaznacz wszystkie" }}
+      </button>
+    </div>
     <label *ngFor="let field of customFields()" class="checkbox-label">
       <input
         type="checkbox"

@@ -2,19 +2,26 @@ import { Injectable, inject } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { CustomFieldsService } from './custom-fields.service';
 import { PdfConfigService } from './pdf-config.service';
+import { ToastrService } from './toastr.service';
 import { Patient, UserPdfConfig } from '@shared/models';
 
 @Injectable({ providedIn: 'root' })
 export class PdfService {
   private readonly fieldsService = inject(CustomFieldsService);
   private readonly configService = inject(PdfConfigService);
+  private readonly toastr = inject(ToastrService);
 
   generate(patient: Patient): void {
     forkJoin({
       fields: this.fieldsService.findAll(),
       configs: this.configService.findAll(),
-    }).subscribe(({ fields, configs }) => {
-      void this.download(patient, fields.data, configs.data[0]);
+    }).subscribe({
+      next: ({ fields, configs }) => {
+        void this.download(patient, fields.data, configs.data[0]).catch(() => {
+          this.toastr.showError('Nie udało się wygenerować pliku PDF.');
+        });
+      },
+      error: () => this.toastr.showError('Nie udało się pobrać danych do PDF.'),
     });
   }
 
@@ -23,13 +30,23 @@ export class PdfService {
     fields: any[],
     savedConfig?: UserPdfConfig,
   ) {
-    const [{ default: pdfMake }, { default: pdfFonts }] = await Promise.all([
+    const [pdfMakeModule, pdfFontsModule] = await Promise.all([
       import('pdfmake/build/pdfmake'),
       import('pdfmake/build/vfs_fonts'),
     ]);
-    const pdfMakeLib = (pdfMake as any).default || pdfMake;
-    const pdfFontsLib = (pdfFonts as any).default || pdfFonts;
-    pdfMakeLib.vfs = pdfFontsLib?.pdfMake?.vfs || pdfFontsLib;
+    const pdfMakeLib = (pdfMakeModule as any).default || (pdfMakeModule as any);
+    const pdfFontsLib =
+      (pdfFontsModule as any).default || (pdfFontsModule as any);
+    const virtualFileSystem =
+      pdfFontsLib?.pdfMake?.vfs || pdfFontsLib?.vfs || pdfFontsLib;
+    if (typeof pdfMakeLib.addVirtualFileSystem === 'function') {
+      pdfMakeLib.addVirtualFileSystem(virtualFileSystem);
+    } else {
+      pdfMakeLib.vfs = virtualFileSystem;
+    }
+    if (typeof pdfMakeLib.createPdf !== 'function') {
+      throw new Error('pdfMake is not available');
+    }
 
     const config = savedConfig ?? {
       reportTitle: 'Podsumowanie pacjenta',
@@ -43,15 +60,24 @@ export class PdfService {
     };
     const standardRows = config.selectedStandardFields.map((key) => [
       { text: standardLabels[key] || key, bold: true },
-      { text: String((patient as any)[key] ?? '-') },
+      { text: this.formatValue((patient as any)[key]) },
     ]);
-    const customRows = config.selectedCustomFieldKeys.map((key) => {
-      const field = fields.find((item) => item.key === key);
-      return [
-        { text: field?.name || key, bold: true },
-        { text: String(patient.customData?.[key] ?? '-') },
-      ];
-    });
+    const customRows = config.selectedCustomFieldKeys
+      .map((key) => {
+        const field = fields.find((item) => item.key === key);
+        if (
+          !field ||
+          this.isIgnoredField(field.name) ||
+          !Object.prototype.hasOwnProperty.call(patient.customData || {}, key)
+        ) {
+          return null;
+        }
+        return [
+          { text: field.name, bold: true },
+          { text: this.formatValue(patient.customData[key]) },
+        ];
+      })
+      .filter((row): row is NonNullable<typeof row> => row !== null);
 
     pdfMakeLib
       .createPdf({
@@ -104,5 +130,26 @@ export class PdfService {
         defaultStyle: { fontSize: 10 },
       })
       .download(`${patient.firstName}_${patient.lastName}_summary.pdf`);
+  }
+
+  private formatValue(value: unknown): string {
+    if (value === null || value === undefined || value === '') return '-';
+    if (typeof value === 'number') {
+      return value.toLocaleString('pl-PL', { maximumFractionDigits: 2 });
+    }
+    return String(value);
+  }
+
+  private isIgnoredField(name: string): boolean {
+    const normalized = name
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, '');
+    return (
+      /^empty\d*$/.test(normalized) ||
+      normalized === 'wynikibadan' ||
+      normalized === 'produktyzywnosciowe'
+    );
   }
 }
