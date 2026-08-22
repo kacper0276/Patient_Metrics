@@ -19,6 +19,7 @@ import { UsersModule } from './modules/users/users.module';
 import { PatientsModule } from './modules/patients/patients.module';
 import { CustomFieldsModule } from './modules/custom-fields/custom-fields.module';
 import { UserPdfConfigModule } from './modules/user-pdf-config/user-pdf-config.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -61,6 +62,7 @@ import { UserPdfConfigModule } from './modules/user-pdf-config/user-pdf-config.m
     }),
 
     UsersModule,
+    AuthModule,
     PatientsModule,
     CustomFieldsModule,
     UserPdfConfigModule,

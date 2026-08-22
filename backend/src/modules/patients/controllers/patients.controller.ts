@@ -7,11 +7,14 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { CurrentUser } from '@core/decorators/current-user.decorator';
 import { CreatePatientDto } from '../dto/create-patient.dto';
 import { UpdatePatientDto } from '../dto/update-patient.dto';
-import { PatientsService } from '../services/patients.service';
+import { ExcelUpload, PatientsService } from '../services/patients.service';
 
 @Controller('patients')
 export class PatientsController {
@@ -50,5 +53,11 @@ export class PatientsController {
     @CurrentUser('id') userId: number,
   ) {
     return this.patientsService.delete(id, userId);
+  }
+
+  @Post('import')
+  @UseInterceptors(FileInterceptor('file'))
+  import(@UploadedFile() file: ExcelUpload, @CurrentUser('id') userId: number) {
+    return this.patientsService.importFromExcel(file, userId);
   }
 }

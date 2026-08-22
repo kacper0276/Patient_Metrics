@@ -3,6 +3,7 @@ import { User } from '../entities/user.entity';
 import { UsersRepository } from '../repositories/users.repository';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import { hashPassword } from '../../auth/password.util';
 
 @Injectable()
 export class UsersService {
@@ -18,8 +19,12 @@ export class UsersService {
     return user;
   }
 
-  create(dto: CreateUserDto): Promise<User> {
-    return this.repository.save(dto);
+  async create(dto: CreateUserDto): Promise<User> {
+    const { password, ...user } = dto;
+    return this.repository.save({
+      ...user,
+      passwordHash: await hashPassword(password),
+    });
   }
 
   async update(id: number, dto: UpdateUserDto): Promise<User> {
