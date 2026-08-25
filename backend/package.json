@@ -21,7 +21,8 @@
     "migration:create": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:create",
     "migration:generate": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate -d ./src/core/database/data-source.ts",
     "migration:run": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d ./src/core/database/data-source.ts",
-    "migration:revert": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert -d ./src/core/database/data-source.ts"
+    "migration:revert": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert -d ./src/core/database/data-source.ts",
+    "migration:run:prod": "typeorm migration:run -d ./dist/core/database/data-source.js"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
@@ -42,6 +43,8 @@
     "pg": "^8.23.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "typeorm": "^1.1.0",
     "xlsx": "^0.18.5"
   },
@@ -71,8 +74,6 @@
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.5",
     "ts-loader": "^9.5.2",
-    "ts-node": "^10.9.2",
-    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.20.0"
   },
