@@ -2,13 +2,14 @@ import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { CustomFieldsService, ToastrService } from '@shared/services';
 import { CustomField } from '@shared/models';
 
 @Component({
   standalone: true,
   selector: 'app-custom-fields',
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, TranslatePipe],
   templateUrl: './custom-fields.component.html',
   styleUrls: ['./custom-fields.component.scss'],
 })

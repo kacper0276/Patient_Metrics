@@ -1,18 +1,21 @@
 <div class="app-shell">
   <header class="app-header">
     <nav class="nav-links">
-      <a *ngIf="!isAuthenticated" routerLink="/login">Logowanie</a>
-      <a routerLink="/patients">Pacjenci</a>
-      <a routerLink="/fields">Pola</a>
-      <a routerLink="/config">Konfiguracja</a>
+      <a *ngIf="!isAuthenticated" routerLink="/login">{{
+        "auth.login" | translate
+      }}</a>
+      <a routerLink="/patients">{{ "patients.title" | translate }}</a>
+      <a routerLink="/fields">{{ "customFields.title" | translate }}</a>
+      <a routerLink="/config">{{ "pdfConfig.title" | translate }}</a>
       <button
         *ngIf="isAuthenticated"
         class="button--logout"
         type="button"
         (click)="logout()"
       >
-        Wyloguj
+        {{ "common.logout" | translate }}
       </button>
+      <app-language-switcher></app-language-switcher>
     </nav>
   </header>
   <main class="app-main">

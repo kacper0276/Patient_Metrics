@@ -7,3 +7,4 @@ export * from './patients.service';
 export * from './custom-fields.service';
 export * from './pdf-config.service';
 export * from './pdf.service';
+export * from './language.service';

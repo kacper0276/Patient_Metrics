@@ -1,10 +1,10 @@
 <section class="page-card page-card--centered">
-  <h1>Logowanie</h1>
-  <p>Wprowadź adres e-mail i hasło.</p>
+  <h1>{{ "auth.login" | translate }}</h1>
+  <p>{{ "auth.invalidCredentials" | translate }}</p>
 
   <form (ngSubmit)="login()" class="form">
     <label>
-      E-mail
+      {{ "auth.email" | translate }}
       <input
         type="email"
         [(ngModel)]="email"
@@ -15,7 +15,7 @@
     </label>
 
     <label>
-      Hasło
+      {{ "auth.password" | translate }}
       <input
         type="password"
         [(ngModel)]="password"
@@ -25,7 +25,9 @@
       />
     </label>
 
-    <button type="submit" class="button button--primary">Zaloguj</button>
+    <button type="submit" class="button button--primary">
+      {{ "auth.signIn" | translate }}
+    </button>
   </form>
   <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
 </section>

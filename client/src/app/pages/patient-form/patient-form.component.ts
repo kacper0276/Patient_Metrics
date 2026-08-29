@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import {
   AuthService,
   CustomFieldsService,
@@ -13,7 +14,7 @@ import { CustomField, Patient } from '@shared/models';
 @Component({
   standalone: true,
   selector: 'app-patient-form',
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, TranslatePipe],
   templateUrl: './patient-form.component.html',
   styleUrls: ['./patient-form.component.scss'],
 })

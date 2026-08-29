@@ -46,6 +46,8 @@ button {
 .nav-links {
   display: flex;
   gap: 1rem;
+  align-items: center;
+  flex: 1;
 }
 
 .nav-links a {

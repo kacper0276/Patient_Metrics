@@ -1,20 +1,20 @@
 <section class="page-header">
   <div>
-    <p class="eyebrow">Zalogowany jako</p>
-    <h1>Witaj, {{ currentUserName }}!</h1>
+    <p class="eyebrow">{{ "messages.loading" | translate }}</p>
+    <h1>{{ "patients.title" | translate }}, {{ currentUserName }}!</h1>
   </div>
   <div class="page-actions">
     <button
       class="button button--secondary"
       (click)="router.navigate(['/fields'])"
     >
-      Pola niestandardowe
+      {{ "customFields.title" | translate }}
     </button>
     <button
       class="button button--secondary"
       (click)="router.navigate(['/config'])"
     >
-      Konfiguracja PDF
+      {{ "pdfConfig.title" | translate }}
     </button>
     <label class="button button--secondary">
       Importuj Excel
@@ -29,7 +29,7 @@
       class="button button--primary"
       (click)="router.navigate(['/patients/new'])"
     >
-      Nowy pacjent
+      {{ "patients.addPatient" | translate }}
     </button>
   </div>
 </section>
@@ -43,13 +43,13 @@
       </div>
       <div class="card-actions">
         <button class="button button--ghost" (click)="edit(patient.id)">
-          Edytuj
+          {{ "common.edit" | translate }}
         </button>
         <button class="button button--primary" (click)="downloadPdf(patient)">
           PDF
         </button>
         <button class="button button--ghost" (click)="remove(patient.id)">
-          Usuń
+          {{ "common.delete" | translate }}
         </button>
       </div>
     </div>
@@ -71,7 +71,7 @@
 
 <ng-template #emptyState>
   <section class="empty-state">
-    <h2>Brak pacjentów</h2>
+    <h2>{{ "patients.noPatients" | translate }}</h2>
     <p>
       Dodaj pierwszego pacjenta, aby zobaczyć jego dane oraz wygenerować
       podsumowanie.

@@ -1,22 +1,30 @@
 <section class="page-header small">
   <div>
-    <p class="eyebrow">Pacjent</p>
-    <h1>{{ isNew() ? "Nowy pacjent" : "Edycja pacjenta" }}</h1>
+    <p class="eyebrow">{{ "patients.title" | translate }}</p>
+    <h1>
+      {{
+        isNew()
+          ? ("patients.addPatient" | translate)
+          : ("patients.editPatient" | translate)
+      }}
+    </h1>
   </div>
   <div class="page-actions">
     <button
       class="button button--ghost"
       (click)="router.navigate(['/patients'])"
     >
-      Powrót
+      {{ "common.back" | translate }}
     </button>
-    <button class="button button--primary" (click)="save()">Zapisz</button>
+    <button class="button button--primary" (click)="save()">
+      {{ "common.save" | translate }}
+    </button>
     <button
       *ngIf="!isNew()"
       class="button button--secondary"
       (click)="downloadPdf()"
     >
-      Generuj PDF
+      {{ "pdfConfig.generate" | translate }}
     </button>
   </div>
 </section>
@@ -24,7 +32,7 @@
 <section class="page-card">
   <form class="form" (ngSubmit)="save()">
     <label>
-      Imię
+      {{ "patients.firstName" | translate }}
       <input
         type="text"
         [(ngModel)]="patient.firstName"
@@ -34,7 +42,7 @@
     </label>
 
     <label>
-      Nazwisko
+      {{ "patients.lastName" | translate }}
       <input
         type="text"
         [(ngModel)]="patient.lastName"

@@ -1,42 +1,44 @@
 <section class="page-header small">
   <div>
-    <p class="eyebrow">Pola niestandardowe</p>
-    <h1>Zarządzaj polami dla pacjentów</h1>
+    <p class="eyebrow">{{ "customFields.title" | translate }}</p>
+    <h1>{{ "customFields.title" | translate }}</h1>
   </div>
   <div class="page-actions">
     <button
       class="button button--ghost"
       (click)="router.navigate(['/patients'])"
     >
-      Powrót
+      {{ "common.back" | translate }}
     </button>
   </div>
 </section>
 
 <section class="page-card form-card">
-  <h2>Dodaj nowe pole</h2>
+  <h2>{{ "customFields.addField" | translate }}</h2>
   <form class="form" (ngSubmit)="addField()">
     <label>
-      Nazwa pola
+      {{ "customFields.fieldName" | translate }}
       <input type="text" [(ngModel)]="name" name="name" required />
     </label>
 
     <label>
-      Klucz pola
+      {{ "customFields.fieldName" | translate }} (Key)
       <input type="text" [(ngModel)]="key" name="key" required />
     </label>
 
     <label>
-      Typ pola
+      {{ "customFields.fieldType" | translate }}
       <select [(ngModel)]="type" name="type">
-        <option value="text">Tekst</option>
+        <option value="text">{{ "common.loading" | translate }}</option>
         <option value="number">Liczba</option>
         <option value="date">Data</option>
         <option value="boolean">Tak/Nie</option>
       </select>
     </label>
 
-    <button class="button button--primary" type="submit">Dodaj pole</button>
+    <button class="button button--primary" type="submit">
+      {{ "customFields.addField" | translate }}
+    </button>
   </form>
 </section>
 
@@ -49,7 +51,7 @@
         <p>{{ field.key }} • {{ field.type }}</p>
       </div>
       <button class="button button--ghost" (click)="remove(field.id)">
-        Usuń
+        {{ "common.delete" | translate }}
       </button>
     </article>
   </div>

@@ -1,13 +1,23 @@
 import { NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { SpinnerComponent } from './shared/components/spinner/spinner.component';
 import { ToastrComponent } from './shared/components/toastr/toastr.component';
+import { LanguageSwitcherComponent } from './shared/components/language-switcher/language-switcher.component';
 import { AuthService, ToastrService } from './shared/services';
 
 @Component({
   selector: 'app-root',
-  imports: [NgIf, RouterOutlet, RouterLink, SpinnerComponent, ToastrComponent],
+  imports: [
+    NgIf,
+    RouterOutlet,
+    RouterLink,
+    SpinnerComponent,
+    ToastrComponent,
+    TranslatePipe,
+    LanguageSwitcherComponent,
+  ],
   templateUrl: './app.html',
   styleUrls: ['./app.scss'],
 })

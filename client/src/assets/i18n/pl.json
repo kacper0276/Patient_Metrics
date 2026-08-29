@@ -1,0 +1,80 @@
+{
+  "common": {
+    "logout": "Wyloguj",
+    "language": "Język",
+    "english": "English",
+    "polish": "Polski",
+    "loading": "Ładowanie...",
+    "error": "Błąd",
+    "success": "Sukces",
+    "cancel": "Anuluj",
+    "save": "Zapisz",
+    "delete": "Usuń",
+    "edit": "Edytuj",
+    "add": "Dodaj",
+    "close": "Zamknij",
+    "back": "Wróć",
+    "next": "Dalej",
+    "previous": "Wróć"
+  },
+  "auth": {
+    "login": "Logowanie",
+    "logout": "Wyloguj",
+    "email": "Email",
+    "password": "Hasło",
+    "rememberMe": "Zapamiętaj mnie",
+    "forgotPassword": "Zapomniałeś hasła?",
+    "signIn": "Zaloguj się",
+    "invalidCredentials": "Nieprawidłowy email lub hasło",
+    "loginSuccess": "Pomyślnie zalogowano"
+  },
+  "patients": {
+    "title": "Pacjenci",
+    "addPatient": "Dodaj Pacjenta",
+    "patientDetails": "Szczegóły Pacjenta",
+    "firstName": "Imię",
+    "lastName": "Nazwisko",
+    "email": "Email",
+    "phone": "Telefon",
+    "dateOfBirth": "Data Urodzenia",
+    "address": "Adres",
+    "city": "Miasto",
+    "postalCode": "Kod Pocztowy",
+    "country": "Kraj",
+    "editPatient": "Edytuj Pacjenta",
+    "deletePatient": "Usuń Pacjenta",
+    "confirmDelete": "Czy na pewno chcesz usunąć tego pacjenta?",
+    "patientDeleted": "Pacjent usunięty pomyślnie",
+    "patientCreated": "Pacjent dodany pomyślnie",
+    "patientUpdated": "Pacjent zaktualizowany pomyślnie",
+    "noPatients": "Nie znaleziono pacjentów"
+  },
+  "customFields": {
+    "title": "Pola Niestandardowe",
+    "addField": "Dodaj Pole",
+    "fieldName": "Nazwa Pola",
+    "fieldType": "Typ Pola",
+    "fieldLabel": "Etykieta Pola",
+    "isRequired": "Wymagane",
+    "deleteField": "Usuń Pole",
+    "noFields": "Brak pól niestandardowych"
+  },
+  "pdfConfig": {
+    "title": "Konfiguracja PDF",
+    "template": "Szablon",
+    "settings": "Ustawienia",
+    "preview": "Podgląd",
+    "generate": "Generuj PDF"
+  },
+  "header": {
+    "title": "Patient Metrics",
+    "subtitle": "System Zarządzania Opieką Zdrowotną"
+  },
+  "messages": {
+    "loading": "Ładowanie...",
+    "savingChanges": "Zapisywanie zmian...",
+    "saved": "Zmiany zapisane",
+    "error": "Wystąpił błąd",
+    "confirmAction": "Czy jesteś pewny?"
+  }
+}
